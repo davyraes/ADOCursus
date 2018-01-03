@@ -12,6 +12,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Data.SqlClient;
+using System.Data.Common;
+using System.Configuration;
+using AdoGemeenschap;
 
 namespace AdoWPF
 {
@@ -23,6 +27,24 @@ namespace AdoWPF
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void buttonBieren_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var manager = new BierenDbManager();
+                using (var conBieren = manager.GetConnection())
+                {
+                    conBieren.Open();
+                    labelStatus.Content = "Bieren geopend";
+                }
+            }
+            catch(Exception ex)
+            {
+                labelStatus.Content = ex.Message;
+            }
+
         }
     }
 }

@@ -13,5 +13,10 @@ namespace AdoWPF
     /// </summary>
     public partial class App : Application
     {
+        public App()
+        {
+            string connectionString = @"server=.\sqlexpress;database=Bieren;integrated security=true";
+            Application.Current.Properties["Bieren2"] = connectionString;
+        }
     }
 }
