@@ -46,5 +46,43 @@ namespace AdoWPF
             }
 
         }
+
+        private void buttonbuttonBonus_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var manager = new RekeningManager();
+                labelStatus.Content = manager.SaldoBonus() + " rekeningen aangepast";
+            }
+            catch(Exception ex)
+            {
+                labelStatus.Content = ex.Message;
+            }
+        }
+
+        private void buttonStorten_Click(object sender, RoutedEventArgs e)
+        {
+            decimal teStorten;
+            if (decimal.TryParse(textBoxTeStorten.Text, out teStorten))
+            {
+                try
+                {
+                    var manager = new RekeningManager();
+                    if (manager.Storten(teStorten, textBoxRekeningNr.Text))
+                        labelStatus.Content = "OK";
+                    else
+                        labelStatus.Content = "rekening niet gevonden";
+                }
+                catch (Exception ex)
+                {
+                    labelStatus.Content = ex.Message;
+                }
+            }
+            else
+            {
+                labelStatus.Content = "Tik een getal bij het storten";
+            }
+
+        }
     }
 }

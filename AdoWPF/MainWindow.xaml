@@ -9,6 +9,18 @@
     <Grid>
         <Button x:Name="buttonBieren" Content="Bieren openen" HorizontalAlignment="Left" VerticalAlignment="Top"
                 Width="100" Margin="214,59,0,0" Click="buttonBieren_Click"/>
-        <Label x:Name="labelStatus" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="230,154,0,0"/>
-    </Grid>
+        <Label x:Name="labelStatus" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="230,80,0,0"/>
+        <Button x:Name="buttonbuttonBonus" Content="Bonus op alle rekeningen" Margin="214,110,0,0" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top" Click="buttonbuttonBonus_Click"/>
+        <StackPanel Orientation="Horizontal" Margin="184,150,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <StackPanel>
+                <Label Content="RekeningNr.:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <Label Content="Te storten:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            </StackPanel>
+            <StackPanel>
+                <TextBox x:Name="textBoxRekeningNr" Width="100" Height="26" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox x:Name="textBoxTeStorten" Width="100" Height="26" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            </StackPanel>
+            <Button x:Name="buttonStorten" Content="Storten" HorizontalAlignment="Right" Click="buttonStorten_Click"/>
+        </StackPanel>
+       </Grid>
 </Window>
