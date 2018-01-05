@@ -135,5 +135,41 @@ namespace AdoGemeenschap
                 }
             }
         }
+        public RekeningInfo RekeningInfoRaadplegen(string rekeningNr)
+        {
+            var dbManager = new BankDbManager();
+            using (var conBank = dbManager.GetConnection())
+            {
+                using (var comSaldo = conBank.CreateCommand())
+                {
+                    comSaldo.CommandType = CommandType.StoredProcedure;
+                    comSaldo.CommandText = "RekeningInfoRaadplegen";
+
+                    var parRekNr = comSaldo.CreateParameter();
+                    parRekNr.ParameterName = "@RekeningNr";
+                    parRekNr.Value = rekeningNr;
+                    comSaldo.Parameters.Add(parRekNr);
+
+                    var parSaldo = comSaldo.CreateParameter();
+                    parSaldo.ParameterName = "@Saldo";
+                    parSaldo.DbType = DbType.Currency;
+                    parSaldo.Direction = ParameterDirection.Output;
+                    comSaldo.Parameters.Add(parSaldo);
+
+                    var parKlantNaam = comSaldo.CreateParameter();
+                    parKlantNaam.ParameterName = "@KlantNaam";
+                    parKlantNaam.DbType = DbType.String;
+                    parKlantNaam.Size = 50;
+                    parKlantNaam.Direction = ParameterDirection.Output;
+                    comSaldo.Parameters.Add(parKlantNaam);
+
+                    conBank.Open();
+                    comSaldo.ExecuteNonQuery();
+                    if(parSaldo.Value.Equals(DBNull.Value))
+                        throw new Exception("Rekeningbestaat niet");
+                    return new RekeningInfo((decimal)parSaldo.Value, (string)parKlantNaam.Value);
+                }
+            }
+        }
     }
 }
