@@ -28,17 +28,22 @@ namespace AdoWPF
         private void buttonOverschrijven_Click(object sender, RoutedEventArgs e)
         {
             decimal bedrag;
-            if ( decimal.TryParse(textboxBedrag.Text,out bedrag))
+            if (decimal.TryParse(textboxBedrag.Text, out bedrag))
             {
                 try
                 {
-                    var dbManager = new BankDbManager();
-
-                }catch(Exception ex)
-                {
+                    var dbManager = new RekeningManager();
+                    dbManager.Overschrijven(bedrag, textboxVanRekNr.Text, textboxNaarRekNr.Text);
+                    labelStatus.Content = "OK";
 
                 }
+                catch (Exception ex)
+                {
+                    labelStatus.Content = ex.Message;
+                }
             }
+            else
+                labelStatus.Content = "bedrag bevat geen getal";
         }
     }
 }

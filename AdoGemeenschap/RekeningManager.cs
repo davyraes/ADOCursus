@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data;
 using System.Data.Common;
+using System.Transactions;
 
 namespace AdoGemeenschap
 {
@@ -49,17 +50,20 @@ namespace AdoGemeenschap
                 }
             }
         }
-        public void Overschrijven(decimal bedrag,string vanRekening,string naarRekening)
+        public void Overschrijven(decimal bedrag, string vanRekening, string naarRekening)
         {
             var dbManager = new BankDbManager();
-            using (var conBank = dbManager.GetConnection())
+            var dbManager2 = new Bank2DbManager();
+
+            var opties = new TransactionOptions();
+            opties.IsolationLevel = System.Transactions.IsolationLevel.ReadCommitted;
+
+            using (var traOverschrijven = new TransactionScope(TransactionScopeOption.Required, opties))
             {
-                conBank.Open();
-                using (var traOverschrijven = conBank.BeginTransaction(IsolationLevel.ReadCommitted))
+                using (var conBank = dbManager.GetConnection())
                 {
                     using (var comAftrekken = conBank.CreateCommand())
                     {
-                        comAftrekken.Transaction = traOverschrijven;
                         comAftrekken.CommandType = CommandType.Text;
                         comAftrekken.CommandText = "update Rekeningen set Saldo=Saldo-@bedrag where RekeningNr=@reknr";
 
@@ -71,16 +75,19 @@ namespace AdoGemeenschap
                         DbParameter parRekening = comAftrekken.CreateParameter();
                         parRekening.ParameterName = "@reknr";
                         parRekening.Value = vanRekening;
+                        comAftrekken.Parameters.Add(parRekening);
 
-                        if (comAftrekken.ExecuteNonQuery()==0)
+                        conBank.Open();
+                        if (comAftrekken.ExecuteNonQuery() == 0)
                         {
-                            traOverschrijven.Rollback();
                             throw new Exception("Van rekening bestaat niet");
                         }
                     }
-                    using (var comBijtellen = conBank.CreateCommand())
+                }
+                using (var conbank = dbManager2.GetConnection())
+                {
+                    using (var comBijtellen = conbank.CreateCommand())
                     {
-                        comBijtellen.Transaction = traOverschrijven;
                         comBijtellen.CommandType = CommandType.StoredProcedure;
                         comBijtellen.CommandText = "Storten";
 
@@ -93,15 +100,15 @@ namespace AdoGemeenschap
                         parRekening.ParameterName = "@rekeningNr";
                         parRekening.Value = naarRekening;
                         comBijtellen.Parameters.Add(parRekening);
-                         
-                        if (comBijtellen.ExecuteNonQuery()==0)
+
+                        conbank.Open();
+                        if (comBijtellen.ExecuteNonQuery() == 0)
                         {
-                            traOverschrijven.Rollback();
                             throw new Exception("Naar Rekening bestaat niet");
                         }
                     }
-                    traOverschrijven.Commit();
                 }
+                traOverschrijven.Complete();
             }
         }
     }

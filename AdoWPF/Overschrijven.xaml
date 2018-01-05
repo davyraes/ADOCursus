@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:AdoWPF"
         mc:Ignorable="d"
         Title="Overschrijven" Height="300" Width="300">
-    <Grid Height="175" VerticalAlignment="Top">
+    <Grid VerticalAlignment="Top">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition/>
@@ -25,6 +25,6 @@
         <TextBox x:Name="textboxNaarRekNr" Grid.Column="1" Grid.Row="1" Margin="10,10,30,5"></TextBox>
         <TextBox x:Name="textboxBedrag" Grid.Column="1" Grid.Row="2" Margin="10,10,30,5"></TextBox>
         <Button x:Name="buttonOverschrijven" Content="Overschrijven" Grid.Column="1" Grid.Row="3" Margin="10,10,30,5" Click="buttonOverschrijven_Click"></Button>
-        <Label x:Name="labelStatus" Grid.Column="1" Grid.Row="4" Margin="10,10,30,5" VerticalAlignment="Center"/>
+        <Label x:Name="labelStatus" Grid.Column="1" Grid.Row="4" Margin="10,5,30,5" VerticalAlignment="Center" FontSize="30"/>
     </Grid>
 </Window>
