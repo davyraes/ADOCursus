@@ -20,6 +20,7 @@ namespace AdoWPF
     /// </summary>
     public partial class OverzichtBrouwers : Window
     {
+        private CollectionViewSource brouwerViewSource;
         public OverzichtBrouwers()
         {
             InitializeComponent();
@@ -33,14 +34,15 @@ namespace AdoWPF
         }
         private void VulDeGrid()
         {
-            CollectionViewSource brouwerViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("brouwerViewSource")));
+            brouwerViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("brouwerViewSource")));
             // Load data by setting the CollectionViewSource.Source property:
             // brouwerViewSource.Source = [generic data source]
             var manager = new BrouwerManager();
             List<Brouwer> brouwersOb = new List<Brouwer>();
             brouwersOb = manager.GetBrouwersBeginNaam(textBoxZoeken.Text);
             brouwerViewSource.Source = brouwersOb;
-
+            GoUpdate();
+            labelTotalRowCount.Content = brouwerDataGrid.Items.Count;
         }
 
         private void buttonZoeken_Click(object sender, RoutedEventArgs e)
@@ -51,6 +53,57 @@ namespace AdoWPF
         {
             if (e.Key == Key.Enter)
                 VulDeGrid();
+        }
+
+        private void GoToFirstButton_Click(object sender, RoutedEventArgs e)
+        {
+            brouwerViewSource.View.MoveCurrentToFirst();
+            GoUpdate();
+        }
+
+        private void GoToPreviousButton_Click(object sender, RoutedEventArgs e)
+        {
+            brouwerViewSource.View.MoveCurrentToPrevious();
+            GoUpdate();
+        }
+
+        private void GoToNextButton_Click(object sender, RoutedEventArgs e)
+        {
+            brouwerViewSource.View.MoveCurrentToNext();
+            GoUpdate();
+        }
+
+        private void GoToLastButton_Click(object sender, RoutedEventArgs e)
+        {
+            brouwerViewSource.View.MoveCurrentToLast();
+            GoUpdate();
+        }
+        private void GoUpdate()
+        {
+            GoToFirstButton.IsEnabled = !(brouwerViewSource.View.CurrentPosition == 0);
+            GoToPreviousButton.IsEnabled = !(brouwerViewSource.View.CurrentPosition == 0);
+            GoToNextButton.IsEnabled = !(brouwerViewSource.View.CurrentPosition == brouwerDataGrid.Items.Count - 1);
+            GoToLastButton.IsEnabled = !(brouwerViewSource.View.CurrentPosition == brouwerDataGrid.Items.Count - 1);
+            if (brouwerDataGrid.Items.Count != 0)
+                if (brouwerDataGrid.SelectedItem != null)
+                    brouwerDataGrid.ScrollIntoView(brouwerDataGrid.SelectedItem);
+            textBoxGo.Text = (brouwerViewSource.View.CurrentPosition + 1).ToString();
+        }
+
+        private void buttonGo_Click(object sender, RoutedEventArgs e)
+        {
+            int position;
+            int.TryParse(textBoxGo.Text, out position);
+            if (position > 0 && position < brouwerDataGrid.Items.Count)
+                brouwerViewSource.View.MoveCurrentToPosition(position - 1);
+            else
+                MessageBox.Show("the input index is not valid");
+            GoUpdate();
+        }
+
+        private void brouwerDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            GoUpdate();
         }
     }
 }

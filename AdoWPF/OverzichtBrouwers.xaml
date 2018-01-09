@@ -13,12 +13,20 @@
     <DockPanel LastChildFill="True">
         <Border Height="30" Background="SkyBlue" BorderBrush="Black" BorderThickness="1" DockPanel.Dock="Top">
             <StackPanel HorizontalAlignment="Center" Margin="0" Width="410" Orientation="Horizontal" KeyUp="textBoxZoeken_KeyUp">
+                <Button Content="|&lt;&lt;" Name="GoToFirstButton" Width="auto" IsEnabled="False" FontWeight="Bold" Background="BlanchedAlmond" Click="GoToFirstButton_Click"></Button>
+                <Button Content="&lt;" Name="GoToPreviousButton" Width="auto" IsEnabled="False" FontWeight="Bold" Background="BlanchedAlmond" Click="GoToPreviousButton_Click"></Button>
+                <Button Content="&gt;" Name="GoToNextButton" Width="auto" FontWeight="Bold" Background="BlanchedAlmond" Click="GoToNextButton_Click" ></Button>
+                <Button Content="&gt;&gt;|" Name="GoToLastButton" Width="auto" FontWeight="Bold" Background="BlanchedAlmond" Click="GoToLastButton_Click"></Button>
+                <TextBox x:Name="textBoxGo" Width="37" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <Label Content="van" Height="28" Name="label1" Width="30"/>
+                <Label Name="labelTotalRowCount" Height="28" Width="30"/>
+                <Button Content="GO" Name="buttonGo" Width="auto" Background="BlanchedAlmond" FontWeight="Bold" Click="buttonGo_Click"/>
                 <TextBox HorizontalAlignment="Left" x:Name="textBoxZoeken" Width="120" AcceptsReturn="False"/>
                 <Button Content="Zoeken" HorizontalAlignment="Left" x:Name="buttonZoeken" FontWeight="Bold" Width="auto" Background="BlanchedAlmond" Click="buttonZoeken_Click"/>
             </StackPanel>
         </Border>
-        <Border DataContext="{StaticResource brouwerViewSource}" Background="SkyBlue" BorderBrush="Black" BorderThickness="1">
-            <DataGrid x:Name="brouwerDataGrid" RowDetailsVisibilityMode="VisibleWhenSelected" ItemsSource="{Binding}" EnableRowVirtualization="True" AutoGenerateColumns="False">
+        <Border Height="auto" DataContext="{StaticResource brouwerViewSource}" Background="SkyBlue" BorderBrush="Black" BorderThickness="1">
+            <DataGrid x:Name="brouwerDataGrid" RowDetailsVisibilityMode="VisibleWhenSelected" ItemsSource="{Binding}" EnableRowVirtualization="True" AutoGenerateColumns="False" SelectionChanged="brouwerDataGrid_SelectionChanged">
             <DataGrid.Columns>
                 <DataGridTextColumn x:Name="brouwersNrColumn" IsReadOnly="True" Header="Brouwers Nr" Binding="{Binding BrouwersNr}"/>
                 <DataGridTextColumn x:Name="brNaamColumn" Header="Br Naam" Binding="{Binding BrNaam}"/>
@@ -28,7 +36,10 @@
                 <DataGridTextColumn x:Name="omzetColumn" Header="Omzet" Binding="{Binding Omzet}"/>
             </DataGrid.Columns>
         </DataGrid>
-
     </Border>
+        <Border Height="120" Background="SkyBlue" BorderBrush="Black" BorderThickness="1" DockPanel.Dock="Bottom"/>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="4" Height="120">
+            
+        </StackPanel>
     </DockPanel>
 </Window>
