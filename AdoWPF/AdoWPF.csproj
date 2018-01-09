@@ -115,6 +115,12 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="Properties\DataSources\AdoGemeenschap.Bank2DbManager.datasource" />
+    <None Include="Properties\DataSources\AdoGemeenschap.BankDbManager.datasource" />
+    <None Include="Properties\DataSources\AdoGemeenschap.BierenDbManager.datasource" />
+    <None Include="Properties\DataSources\AdoGemeenschap.KlantManager.datasource" />
+    <None Include="Properties\DataSources\AdoGemeenschap.RekeningInfo.datasource" />
+    <None Include="Properties\DataSources\AdoGemeenschap.RekeningManager.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
