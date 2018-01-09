@@ -23,7 +23,7 @@ namespace AdoGemeenschap
                         comBrouwers.CommandText = "select * from Brouwers where BrNaam like @zoals order by brnaam";
                         var parZoals = comBrouwers.CreateParameter();
                         parZoals.ParameterName = "@zoals";
-                        parZoals.Value = beginNaam;
+                        parZoals.Value = beginNaam+"%";
                         comBrouwers.Parameters.Add(parZoals);
                     }
                     else
@@ -55,6 +55,7 @@ namespace AdoGemeenschap
                                 ));
 
                         }
+                        return brouwers;
                     }
                 }
             }
