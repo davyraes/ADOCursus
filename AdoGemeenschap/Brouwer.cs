@@ -15,20 +15,17 @@ namespace AdoGemeenschap
         private string gemeenteValue;
         private Int32? omzetValue;
 
+        public bool changed { get; set; }
+
         public int BrouwersNr { get { return brouwersNrValue; } }
-        public string BrNaam { get { return brNaamValue; } set { brNaamValue = value; } }
-        public string Adres { get { return adresValue; } set { adresValue = value; } }
+        public string BrNaam { get { return brNaamValue; } set { brNaamValue = value;changed = true; } }
+        public string Adres { get { return adresValue; } set { adresValue = value;changed = true; } }
         public Int16 Postcode
         {
             get { return postcodeValue; }
-            set
-            {
-                if (value < 1000 || value > 9999)
-                    throw new Exception("Postcode moet tussen 1000 en 9999 liggen");
-                postcodeValue = value;
-            }
+            set { postcodeValue = value;changed = true; }
         }
-        public string Gemeente { get { return gemeenteValue; } set { gemeenteValue = value; } }
+        public string Gemeente { get { return gemeenteValue; } set { gemeenteValue = value;changed = true; } }
         public Int32? Omzet
         {
             get { return omzetValue; }
@@ -37,6 +34,7 @@ namespace AdoGemeenschap
                 if (value.HasValue && Convert.ToInt32(value) < 0)
                     throw new Exception("Omzet moet positief zijn");
                 omzetValue = value;
+                changed = true;
             }
         }
         public Brouwer(Int32 brNr,string brNaam,string adres,Int16 postcode,string gemeente,Int32? omzet)
@@ -47,6 +45,8 @@ namespace AdoGemeenschap
             this.Postcode = postcode;
             this.Gemeente = gemeente;
             this.Omzet = omzet;
+            this.changed = false;
         }
+        public Brouwer() { }
     }
 }
