@@ -47,10 +47,13 @@
     <Compile Include="BierenDbManager.cs" />
     <Compile Include="Brouwer.cs" />
     <Compile Include="BrouwerManager.cs" />
+    <Compile Include="Figuur.cs" />
+    <Compile Include="FiguurManager.cs" />
     <Compile Include="KlantManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RekeningInfo.cs" />
     <Compile Include="RekeningManager.cs" />
+    <Compile Include="StripDbManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\DataSources\" />

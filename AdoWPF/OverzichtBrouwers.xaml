@@ -59,7 +59,7 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                
+
                 <Label Content="Brouwers Nr:" Grid.Column="0" HorizontalAlignment="Left" Margin="6" Grid.Row="0" VerticalAlignment="Center"/>
                 <Label x:Name="brouwersNrTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="6" Grid.Row="0" Content="{Binding BrouwersNr, Mode=OneWay}" VerticalAlignment="Center" Width="120"/>
                 <Label Content="Br Naam:" Grid.Column="0" HorizontalAlignment="Left" Margin="6" Grid.Row="1" VerticalAlignment="Center"/>
@@ -68,15 +68,15 @@
                 <TextBox x:Name="adresTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="6" Grid.Row="2" Text="{Binding Adres, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="120" PreviewKeyDown="brouwerDataGrid_PreviewKeyDown"/>
                 <Label Content="Postcode:" Grid.Column="2" HorizontalAlignment="Left" Margin="6" Grid.Row="0" VerticalAlignment="Center"/>
                 <AdornerDecorator Grid.Column="3" Grid.Row="0">
-                    <TextBox x:Name="postcodeTextBox"  Style="{StaticResource textBoxInError}" Validation.ErrorTemplate="{StaticResource validationTemplate}" Grid.Column="3" HorizontalAlignment="Left" Height="23" Margin="6" Grid.Row="0" VerticalAlignment="Center" Width="120">
-                    <TextBox.Text>
-                        <Binding Path="Postcode" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True" NotifyOnValidationError="True">
-                            <Binding.ValidationRules>
-                                <local:PostcodeRangeRule/>
-                            </Binding.ValidationRules>
-                        </Binding>
-                    </TextBox.Text>
-                </TextBox>
+                    <TextBox x:Name="postcodeTextBox"  Style="{StaticResource textBoxInError}" Validation.ErrorTemplate="{StaticResource validationTemplate}" Grid.Column="3" HorizontalAlignment="Left" Height="22" Margin="6" Grid.Row="0" VerticalAlignment="Center" Width="120">
+                        <TextBox.Text>
+                            <Binding Path="Postcode" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True" NotifyOnValidationError="True">
+                                <Binding.ValidationRules>
+                                    <local:PostcodeRangeRule/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
                 </AdornerDecorator>
                 <Label Content="Gemeente:" Grid.Column="2" HorizontalAlignment="Left" Margin="6" Grid.Row="1" VerticalAlignment="Center"/>
                 <TextBox x:Name="gemeenteTextBox" Grid.Column="3" HorizontalAlignment="Left" Height="23" Margin="6" Grid.Row="1" Text="{Binding Gemeente, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="120"/>
@@ -91,7 +91,7 @@
                         </Binding>
                     </TextBox.Text>
                 </TextBox>
-            
+
             </Grid>
         </Border>
         <Border Height="120" Background="SkyBlue" BorderBrush="Black" BorderThickness="1" DockPanel.Dock="Bottom" DataContext="{StaticResource brouwerViewSource}">
@@ -102,9 +102,9 @@
         <Border Height="auto" DataContext="{StaticResource brouwerViewSource}" Background="SkyBlue" BorderBrush="Black" BorderThickness="1">
             <DataGrid x:Name="brouwerDataGrid" RowDetailsVisibilityMode="VisibleWhenSelected" ItemsSource="{Binding}" EnableRowVirtualization="True" AutoGenerateColumns="False" SelectionChanged="brouwerDataGrid_SelectionChanged" PreviewMouseDown="brouwerDataGrid_PreviewMouseDown" PreviewKeyDown="brouwerDataGrid_PreviewKeyDown">
                 <DataGrid.Columns>
-                <DataGridTextColumn x:Name="brouwersNrColumn" IsReadOnly="True" Header="Brouwers Nr" Binding="{Binding BrouwersNr, UpdateSourceTrigger=PropertyChanged}"/>
-                <DataGridTextColumn x:Name="brNaamColumn" Header="Br Naam" Binding="{Binding BrNaam, UpdateSourceTrigger=PropertyChanged}"/>
-                <DataGridTextColumn x:Name="adresColumn" Header="Adres" Binding="{Binding Adres, UpdateSourceTrigger=PropertyChanged}"/>
+                    <DataGridTextColumn x:Name="brouwersNrColumn" IsReadOnly="True" Header="Brouwers Nr" Binding="{Binding BrouwersNr, UpdateSourceTrigger=PropertyChanged}"/>
+                    <DataGridTextColumn x:Name="brNaamColumn" Header="Br Naam" Binding="{Binding BrNaam, UpdateSourceTrigger=PropertyChanged}"/>
+                    <DataGridTextColumn x:Name="adresColumn" Header="Adres" Binding="{Binding Adres, UpdateSourceTrigger=PropertyChanged}"/>
                     <DataGridTextColumn x:Name="postcodeColumn" Header="Postcode" EditingElementStyle="{StaticResource textBoxInError}">
                         <DataGridTextColumn.Binding>
                             <Binding Path="Postcode" ValidatesOnExceptions="True" ValidatesOnDataErrors="True" ValidatesOnNotifyDataErrors="True" UpdateSourceTrigger="PropertyChanged" Mode="TwoWay">
@@ -114,9 +114,9 @@
                             </Binding>
                         </DataGridTextColumn.Binding>
                     </DataGridTextColumn>
-                <DataGridTextColumn x:Name="gemeenteColumn" Header="Gemeente" Binding="{Binding Gemeente, UpdateSourceTrigger=PropertyChanged}"/>
-                <DataGridTextColumn x:Name="omzetColumn" Header="Omzet" Binding="{Binding Omzet, UpdateSourceTrigger=PropertyChanged, TargetNullValue={x:Static sys:String.Empty},ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}, StringFormat=c}"/>
-            </DataGrid.Columns>
+                    <DataGridTextColumn x:Name="gemeenteColumn" Header="Gemeente" Binding="{Binding Gemeente, UpdateSourceTrigger=PropertyChanged}"/>
+                    <DataGridTextColumn x:Name="omzetColumn" Header="Omzet" Binding="{Binding Omzet, UpdateSourceTrigger=PropertyChanged, TargetNullValue={x:Static sys:String.Empty},ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}, StringFormat=c}"/>
+                </DataGrid.Columns>
                 <DataGrid.RowValidationRules>
                     <local:PostcodeRangeRule ValidationStep="UpdatedValue"></local:PostcodeRangeRule>
                 </DataGrid.RowValidationRules>
@@ -128,7 +128,7 @@
                         </Grid>
                     </ControlTemplate>
                 </DataGrid.RowValidationErrorTemplate>
-        </DataGrid>
-    </Border>
+            </DataGrid>
+        </Border>
     </DockPanel>
 </Window>

@@ -291,8 +291,7 @@ namespace AdoWPF
             VulDeGrid();
             OudeBrouwers.Clear();
             nieuweBrouwers.Clear();
-            GewijzigdeBrouwers.Clear();    
-            
+            GewijzigdeBrouwers.Clear();                
         }
         
     }
