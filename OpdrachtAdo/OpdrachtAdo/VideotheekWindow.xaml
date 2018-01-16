@@ -1,0 +1,120 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:OpdrachtAdo"
+        xmlns:global ="clr-namespace:System.Globalization;assembly=mscorlib"
+        xmlns:AdoGemeenschap="clr-namespace:AdoGemeenschap;assembly=AdoGemeenschap" x:Class="OpdrachtAdo.MainWindow"
+        mc:Ignorable="d"
+        Title="Videotheek" SizeToContent="WidthAndHeight" Loaded="Window_Loaded">
+    <Window.Resources>
+        <CollectionViewSource x:Key="filmViewSource" d:DesignSource="{d:DesignInstance {x:Type AdoGemeenschap:Film}, CreateList=True}"/>
+        <CollectionViewSource x:Key="genreViewSource" d:DesignSource="{d:DesignInstance {x:Type AdoGemeenschap:Genre}, CreateList=True}"/>
+        <ControlTemplate x:Key="ValidationTemplate">
+            <StackPanel Orientation="Horizontal">
+                <AdornedElementPlaceholder/>
+                <TextBlock Foreground="Red" Text="{Binding [0].ErrorContent}"/>
+            </StackPanel>
+        </ControlTemplate>
+    </Window.Resources>
+    <DockPanel LastChildFill="True">
+        <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+            <StackPanel DataContext="{StaticResource filmViewSource}">
+                <Label Content="Videotheek - films" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <ListBox x:Name="filmListBox" DisplayMemberPath="Titel" MaxHeight="300"  ItemsSource="{Binding}" SelectedValuePath="BandNr" Width="auto"/>
+
+            </StackPanel>
+            <StackPanel>
+                <Button Content="toevoegen" x:Name="buttonToevoegen" Margin="10" Click="buttonToevoegen_Click"/>
+                <Button Content="verwijderen" x:Name="buttonVerwijderen" Margin="10" Click="buttonVerwijderen_Click"/>
+                <Button Content="Alles Opslaan" x:Name="buttonAllesOpslaan" Margin="10,20,10,20" Click="buttonAllesOpslaan_Click"/>
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Grid x:Name="gridFilm" DataContext="{StaticResource filmViewSource}" HorizontalAlignment="Left" Margin="50" VerticalAlignment="Top" IsEnabled="False">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Label Content="Band Nr:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="0" VerticalAlignment="Center"/>
+                <TextBox x:Name="bandNrTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="0" Text="{Binding BandNr, Mode=oneWay}" VerticalAlignment="Center" Width="200" IsReadOnly="True"></TextBox>
+                <Label Content="Titel:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="1" VerticalAlignment="Center"/>
+                <TextBox x:Name="titelTextBox" Grid.Column="1" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" HorizontalAlignment="Left" Margin="3" Grid.Row="1" VerticalAlignment="Center" Height="23" Width="200" >
+                    <TextBox.Text>
+                        <Binding Path="Titel" Mode="TwoWay"  NotifyOnValidationError="True" ValidatesOnExceptions="True" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <AdoGemeenschap:TitelValidationRule></AdoGemeenschap:TitelValidationRule>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+                <Label Content="Genre:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="2" VerticalAlignment="Center"/>
+                <ComboBox x:Name="genreComboBox" SelectedIndex="{Binding GenreNr}"  Grid.Column="1" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" DisplayMemberPath="Naam" HorizontalAlignment="Left" Height="Auto" ItemsSource="{Binding Source={StaticResource genreViewSource}}" Margin="3" Grid.Row="2" VerticalAlignment="Center" Width="200">
+                    <ComboBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel/>
+                        </ItemsPanelTemplate>
+                    </ComboBox.ItemsPanel>
+                    <ComboBox.SelectedValuePath>
+                        <Binding Path="GenreNr" NotifyOnValidationError="True" ValidatesOnExceptions="True" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <AdoGemeenschap:GenreValidationRule></AdoGemeenschap:GenreValidationRule>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </ComboBox.SelectedValuePath>
+                </ComboBox>
+                <Label Content="In Voorraad:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="3" VerticalAlignment="Center"/>
+                <TextBox x:Name="inVoorraadTextBox" Grid.Column="1" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="3" VerticalAlignment="Center" Width="200">
+                    <TextBox.Text>
+                        <Binding Path="InVoorraad" Mode="TwoWay"  NotifyOnValidationError="True" ValidatesOnExceptions="True" UpdateSourceTrigger="Default">
+                            <Binding.ValidationRules>
+                                <AdoGemeenschap:voorraadValidationRule></AdoGemeenschap:voorraadValidationRule>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+                <Label Content="Uit Voorraad:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="4" VerticalAlignment="Center"/>
+                <TextBox x:Name="uitVoorraadTextBox" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="4" VerticalAlignment="Center" Width="200">
+                    <TextBox.Text>
+                        <Binding Path="UitVoorraad" Mode="TwoWay"  NotifyOnValidationError="True" ValidatesOnExceptions="True" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <AdoGemeenschap:voorraadValidationRule></AdoGemeenschap:voorraadValidationRule>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+                <Label Content="Prijs:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="5" VerticalAlignment="Center"/>
+                <TextBox x:Name="prijsTextBox" Grid.Column="1" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="5" VerticalAlignment="Center" Width="200">
+                    <TextBox.Text>
+                        <Binding Path="Prijs" Mode="TwoWay" NotifyOnValidationError="True" ValidatesOnExceptions="True" ConverterCulture="{x:Static global:CultureInfo.CurrentCulture}" StringFormat="c" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <AdoGemeenschap:PrijsValidationRule></AdoGemeenschap:PrijsValidationRule>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+                <Label Content="Totaal Verhuurd:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="6" VerticalAlignment="Center"/>
+                <TextBox x:Name="totaalVerhuurdTextBox" Grid.Column="1" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="6" VerticalAlignment="Center" Width="200">
+                    <TextBox.Text>
+                        <Binding Path="TotaalVerhuurd" Mode="TwoWay" NotifyOnValidationError="True" ValidatesOnExceptions="True" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <AdoGemeenschap:voorraadValidationRule></AdoGemeenschap:voorraadValidationRule>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+            </Grid>
+            <Button x:Name="ButtonVerhuur" Content="Verhuur" VerticalAlignment="Center" Margin="20" Click="ButtonVerhuur_Click"/>
+        </StackPanel>
+    </DockPanel>
+</Window>
