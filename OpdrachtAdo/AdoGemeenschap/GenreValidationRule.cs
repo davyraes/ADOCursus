@@ -12,7 +12,7 @@ namespace AdoGemeenschap
     {
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {
-            if (value==null||((Genre)value).GenreNr == 0||value.ToString()==string.Empty)
+            if (value==null||value.ToString()==string.Empty||(int)value==0)
                 return new ValidationResult(false, "Genre moet gekozen worden");
             return ValidationResult.ValidResult;
         }

@@ -14,18 +14,12 @@ namespace AdoGemeenschap
         {
             int getal;
             if (value == null || value.ToString() == string.Empty)
-            {
                 return new ValidationResult(false, "Getal moet ingevuld zijn");
-            }
             if (!int.TryParse(value.ToString(), out getal))
-            {
                 return new ValidationResult(false, "Moet een getal zijn");
-            }
             if (getal <= 0)
-            {
-                return new ValidationResult(false, "Getal Moet groter dan 0 zijn");
-            }
-            return ValidationResult.ValidResult;
+                return new ValidationResult(false, "Getal moet groter dan 0 zijn");
+            return ValidationResult.ValidResult; ;
         }
     }
 }

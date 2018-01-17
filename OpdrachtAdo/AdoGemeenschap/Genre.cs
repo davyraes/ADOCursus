@@ -8,6 +8,7 @@ namespace AdoGemeenschap
 {
     public class Genre
     {
+        public Genre() { }
         public Genre(int nGenreNr,string nNaam)
         {
             this.GenreNr = nGenreNr;
