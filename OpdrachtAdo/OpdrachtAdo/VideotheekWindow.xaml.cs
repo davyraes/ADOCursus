@@ -127,6 +127,7 @@ namespace OpdrachtAdo
             filmListBox.IsEnabled = !filmListBox.IsEnabled;
             buttonAllesOpslaan.IsEnabled = !buttonAllesOpslaan.IsEnabled;
             ButtonVerhuur.IsEnabled = !ButtonVerhuur.IsEnabled;
+            ButtonTerug.IsEnabled = !ButtonTerug.IsEnabled;
             gridFilm.IsEnabled = !gridFilm.IsEnabled;
             Aanpassen = !Aanpassen;
             if (Aanpassen)
